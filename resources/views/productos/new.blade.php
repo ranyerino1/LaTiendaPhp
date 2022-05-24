@@ -9,26 +9,30 @@
         @csrf
             <div class="row">
                 <div class="input-field col s8">
-                    <label for="nombre">Nombre de producto</label>
-                    <input type="text" placeholder="Nombre de producto" id="nombre" name="nombre">
+                    <label for="nombre">Nombre de producto</label><br>
+                    <span>{{ $errors->first('nombre') }}</span>
+                    <input type="text" placeholder="Nombre de producto" value="{{ old('nombre') }}" id="nombre" name="nombre">
                 </div>
             </div> 
             <div class="row">
                 <div class="input-filed col s8">
-                <label for="desc">Descripcion de producto</label>
-                <textarea class="materialize-textarea" placeholder="Descripcion de producto" id="desc" name="desc"></textarea>
+                <label for="desc">Descripcion de producto</label><br>
+                <span>{{ $errors->first('desc') }}</span>
+                <textarea class="materialize-textarea" placeholder="Descripcion de producto" id="desc" name="desc">{{ old('desc') }}</textarea>
                 </div>
             </div>     
             <div class="row">
                 <div class="input-filed col s8">
-                    <label for="precio">Precio de producto</label>
-                    <textarea class="materialize-textarea" placeholder="Precio de producto" id="precio" name="precio"></textarea>
+                    <label for="precio">Precio de producto</label><br>
+                    <span>{{ $errors->first('precio') }}</span>
+                    <textarea class="materialize-textarea" placeholder="Precio de producto" id="precio" name="precio">{{ old('precio') }}</textarea>
                 </div>
             </div>
              <div class="row">
                 <div class="input-field col s8">
+                <span>{{ $errors->first('marca') }}</span>
                     <select name="marca" id="marca">
-                        <option>Marcas</option>
+                        <option value="">Marcas</option>
                         @foreach($marcas as $marca)
                             <option value="{{ $marca->id }}">{{ $marca->nombre }}</option>
                         @endforeach
@@ -38,8 +42,9 @@
              </div>
              <div class="row">
                 <div class="input-field col s8">
+                <span>{{ $errors->first('categoria') }}</span>
                     <select name="categoria" id="categoria">
-                        <option>Categorias</option>
+                        <option value="">Categorias</option>
                         @foreach($categorias as $categoria)
                             <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
                         @endforeach
@@ -65,6 +70,11 @@
                         </button>
                 </div>
             </div>
+            @if(session('mensaje'))
+                <div class="row">
+                    {{session('mensaje')}}
+                </div>
+            @endif
     </form>
 </div>
 @endsection
