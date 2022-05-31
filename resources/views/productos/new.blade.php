@@ -5,7 +5,7 @@
     <h1 class=" indigo-text text-accent-4">Nuevo producto</h1>
 </div>
 <div class="row">
-    <form class="col s8" method="post" action="{{ route('producto.store') }}">
+    <form class="col s8" method="post" action="{{ route('producto.store') }}" enctype="multipart/form-data">
         @csrf
             <div class="row">
                 <div class="input-field col s8">
@@ -55,6 +55,7 @@
              
             <div class="row">
                 <div class="file-field input-field col s8">
+                <span>{{ $errors->first('imagen') }}</span><br>
                     <div class="btn">
                         <span>imagen...</span>
                         <input type="file" name="imagen">

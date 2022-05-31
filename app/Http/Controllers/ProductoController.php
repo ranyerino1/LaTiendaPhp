@@ -43,17 +43,20 @@ class ProductoController extends Controller
     {
         //validar datos
         $reglas = [
-            "nombre" => 'required|alpha',
+            "nombre" => 'required|alpha|unique:productos,nombre',
             "desc" => 'required|min:10|max:50',
             "precio" => 'required|numeric',
             "marca" => 'required',
-            "categoria" => 'required'
+            "categoria" => 'required', 
+            "imagen" => 'required|image'
         ];
         //mensajes de error personalizados por regla
         $mensajes = [
             "required"=>"Campo requerido",
             "numeric"=>"solo numeros",
-            "alpha"=>"solo letras"
+            "alpha"=>"solo letras",
+            "image"=>"el archivo debe ser una imagen",
+            "unique" => "el nombre del producto ya esta registrado"
         ];
         //crear objeto validacion
         $v = Validator::make($r->all(), $reglas, $mensajes);
@@ -62,6 +65,14 @@ class ProductoController extends Controller
             //validacion fallida(mostrar que fallo)-redireccionar al formulario
             return redirect('producto/create')->withErrors($v)->withInput();
         }else{
+
+            //Asignar a una variable nombre_archivo 
+            $nombre_archivo = $r->imagen->getClientOriginalName();
+            $archivo = $r->imagen;
+            //mover el archivo en la carpeta public
+            $ruta = public_path().'/img';
+            $archivo->move($ruta, $nombre_archivo);
+
             //validacion correcta
             //crear entidad producto
             $p = new Producto;
@@ -71,6 +82,7 @@ class ProductoController extends Controller
             $p->precio = $r->precio;
             $p->marca_id = $r->marca;
             $p->categoria_id = $r->categoria;
+            $p->imagen = $nombre_archivo;
             //grabar el nuevo producto
             $p->save();
             //redireccionar a la ruta : create"formulario de registro producto", llevando datos de sesion"mensaje de exito"
