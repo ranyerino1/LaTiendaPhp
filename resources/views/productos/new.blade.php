@@ -67,8 +67,7 @@
             </div>  
                 <div class="row">
                     <div class="s8">
-                        <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
-                        </button>
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Guardar</button>
                 </div>
             </div>
             @if(session('mensaje'))
